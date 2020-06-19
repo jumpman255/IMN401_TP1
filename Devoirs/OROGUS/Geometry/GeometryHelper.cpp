@@ -51,14 +51,132 @@ Geometry* GeometryHelper::CreateGrid(Metre width, Metre depth, uint32 m, uint32 
 
 Geometry* GeometryHelper::CreateBox(Metre width, Metre height, Metre depth, Real textureRatioX, Real textureRatioY)
 {
+	// TP2 : À compléter
+
 	std::vector<Vertex> vertices;
 	std::vector<uint32> indices;
 
-	// TP2 : à compléter
-	// Vous pouvez vous inspirer du tétrahèdre pour faire le cube. Le tétrahèdre remplace temporairement la sphère que vous aurez à faire au tp3.
+	// Points du cube
 
-    Geometry* geom = Geometry::CreateGeometry("Cube", std::move(vertices), std::move(indices));
-    return geom;
+	Point3<Metre> p1 = Point3<Metre>(Metre(0), Metre(0), Metre(0));
+	Point3<Metre> p2 = Point3<Metre>(width, Metre(0), Metre(0));
+	Point3<Metre> p3 = Point3<Metre>(Metre(0), Metre(0), depth);
+	Point3<Metre> p4 = Point3<Metre>(width, Metre(0), depth);
+	Point3<Metre> p5 = Point3<Metre>(Metre(0), height, Metre(0));
+	Point3<Metre> p6 = Point3<Metre>(Metre(0), height, depth);
+	Point3<Metre> p7 = Point3<Metre>(width, height, Metre(0));
+	Point3<Metre> p8 = Point3<Metre>(width, height, depth);
+
+	// Face 1
+
+	vertices.push_back(Vertex(p1, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(2);
+
+	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(3);
+	indices.push_back(4);
+	indices.push_back(5);
+
+	// Face 2
+
+	vertices.push_back(Vertex(p1, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(6);
+	indices.push_back(7);
+	indices.push_back(8);
+
+	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(9);
+	indices.push_back(10);
+	indices.push_back(11);
+
+	// Face 3
+
+	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(12);
+	indices.push_back(13);
+	indices.push_back(14);
+
+	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p8, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(15);
+	indices.push_back(16);
+	indices.push_back(17);
+
+	// Face 4
+
+	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(18);
+	indices.push_back(19);
+	indices.push_back(20);
+
+	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p8, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(21);
+	indices.push_back(22);
+	indices.push_back(23);
+
+	// Face 5
+
+	vertices.push_back(Vertex(p1, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(24);
+	indices.push_back(25);
+	indices.push_back(26);
+
+	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(27);
+	indices.push_back(28);
+	indices.push_back(29);
+
+	// Face 6
+
+	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(30);
+	indices.push_back(31);
+	indices.push_back(32);
+
+	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
+	vertices.push_back(Vertex(p8, Vector3<Real>(), Vector2<Real>()));
+
+	indices.push_back(33);
+	indices.push_back(34);
+	indices.push_back(35);
+
+	Geometry* geom = Geometry::CreateGeometry("Cube", std::move(vertices), std::move(indices));
+	return geom;
 }
 
 Geometry* GeometryHelper::CreateBox(Metre size, const Color& color)

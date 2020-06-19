@@ -691,18 +691,65 @@ Transform executeTranslation(Axe axe, Metre delta)
 
 Transform executeRotation(Axe axe, Degree delta)
 {
-	// TP2 : À compléter	
-	return Transform();
+	// TP2 : À compléter
+	
+	Transform rotation;
+	
+	if (axe == Axe::X)
+	{
+		rotation = Transform::MakeRotationX(delta);
+	}
+	else if (axe == Axe::Y)
+	{
+		rotation = Transform::MakeRotationY(delta);
+	}
+	else if (axe == Axe::Z)
+	{
+		rotation = Transform::MakeRotationZ(delta);
+	}
+	return rotation;
 }
 
 Transform executeScale(Axe axe, Real delta)
 {
-	// TP2 : À compléter
-	return Transform();
+	// TP2 : À compléter 
+	
+	Vector3<Real> scaleVector;
+
+	if (axe == Axe::X)
+	{
+		scaleVector = Vector3<Real>(delta, 1, 1);
+	}
+	else if (axe == Axe::Y)
+	{
+		scaleVector = Vector3<Real>(1, delta, 1);
+	}
+	else if (axe == Axe::Z)
+	{
+		scaleVector = Vector3<Real>(1, 1, delta);
+	}
+	else if (axe == Axe::All)
+	{
+		scaleVector = Vector3<Real>(delta, delta, delta);
+	}
+
+	return Transform::MakeScale(scaleVector);
 }
 
 Transform executeShear(Axe axe, Real delta)
 {
 	// TP2 : À compléter
-	return Transform();
+
+	if (axe == Axe::X)
+	{
+		return Transform::MakeShearX(delta);
+	}
+	else if (axe == Axe::Y)
+	{
+		return Transform::MakeShearY(delta);
+	}
+	else if (axe == Axe::Z)
+	{
+		return Transform::MakeShearZ(delta);
+	}
 }

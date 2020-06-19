@@ -231,19 +231,31 @@ public:
 	static Transform MakeShearX(Real shear)
 	{
 		// TP2 : À compléter
-		return Transform();
+		return Transform(
+			Real(1), shear, shear, Real(),
+			Real(), Real(1), Real(), Real(),
+			Real(), Real(), Real(1), Real(),
+			Real(), Real(1), Real(), Real(1));
 	}
 
 	static Transform MakeShearY(Real shear)
 	{
 		// TP2 : À compléter
-		return Transform();
+		return Transform(
+			Real(1), Real(), Real(), Real(),
+			shear, Real(1), shear, Real(),
+			Real(), Real(), Real(1), Real(),
+			Real(), Real(), Real(), Real(1));
 	}
 
 	static Transform MakeShearZ(Real shear)
 	{
 		// TP2 : À compléter
-		return Transform();
+		return Transform(
+			Real(1), Real(), Real(), Real(),
+			Real(), Real(1), Real(), Real(),
+			shear, shear, Real(1), Real(),
+			Real(), Real(), Real(), Real(1));
 	}
 
     Transform()
