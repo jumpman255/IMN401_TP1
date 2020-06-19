@@ -1,0 +1,77 @@
+<scene>
+  <properties>
+    <camera>
+      <far value="1000"/>
+      <near value="0.01"/>
+      <fieldOfView value="45"/>
+      <position x="0" y="0" z="-5"/>
+      <lookAt x="0" y="0" z="0"/>
+    </camera>
+    <ambientColor r="0" g="0" b="0"/>
+  </properties>
+  <lights>
+    <light type="point">
+      <position x="1" y="1" z="1"/>
+      <ambient r="1" g="1" b="1"/>
+      <diffuse r="1" g="1" b="1"/>
+      <specular r="1" g="1" b="1"/>
+	  <constant value="1"/>
+	  <linear value="0.0"/>
+	  <quadratic value="0"/>
+    </light>
+  </lights>
+  <objects>
+    <object name="cube1">
+      <geometry type="forme">
+        <forme type="cube" size="1"/>
+      </geometry>
+      <material>
+        <vertexShader name="BaseVertexShader.vs"/>
+        <fragmentShader name="BaseColorLitFragmentShader.fs">
+          <uniform name="material.ambientColor" type="color" r="0" g="0.3" b="0.3"/>
+          <uniform name="material.diffuseColor" type="color" r="0" g="1" b="1"/>
+          <uniform name="material.specularColor" type="color" r="0.3" g="0.3" b="0.3"/>
+          <uniform name="material.shininess" type="float" value="250"/>
+        </fragmentShader>
+      </material>
+      <transform>
+        <translation x="0"/>
+      </transform>
+    </object>
+    <object name="sphere">
+      <geometry type="forme">
+        <forme type="sphere" rings="60" sides="60"/>
+      </geometry>
+      <material>
+        <vertexShader name="BaseVertexShader.vs"/>
+        <fragmentShader name="BaseColorLitFragmentShader.fs">
+          <uniform name="material.ambientColor" type="color" r="0.2" g="0.2" b="0.2"/>
+          <uniform name="material.diffuseColor" type="color" r="0.5" g="0.5" b="0.5"/>
+          <uniform name="material.specularColor" type="color" r="0.7" g="0.7" b="0.7"/>
+          <uniform name="material.shininess" type="float" value="250"/>
+        </fragmentShader>
+      </material>
+      <transform>
+        <translation x="3"/>
+      </transform>
+      </object>
+	  <object name="grid">
+      <geometry type="forme">
+        <forme type="grid" width="15" depth="15"/>
+      </geometry>
+      <material>
+        <vertexShader name="BaseVertexShader.vs"/>
+        <fragmentShader name="BaseColorLitFragmentShader.fs">
+          <uniform name="material.ambientColor" type="color" r="0.25" g="0.25" b="0"/>
+          <uniform name="material.diffuseColor" type="color" r="0.5" g="0.5" b="0"/>
+          <uniform name="material.specularColor" type="color" r="0.7" g="0.7" b="0.7"/>
+          <uniform name="material.shininess" type="float" value="250"/>
+        </fragmentShader>
+      </material>
+      <transform>
+        <translation y="-1"/>
+      </transform>
+    </object>
+    
+  </objects>
+</scene>

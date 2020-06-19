@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <!--Définitions pour les types pour les unités-->
+  <Type Name="Unit&lt;*&gt;">
+    <DisplayString>{m_value}</DisplayString>
+  </Type>
+  <Type Name="Unitless&lt;*&gt;">
+    <DisplayString>{m_value}</DisplayString>
+  </Type>
+  <!--Définitions pour les types mathématiques-->
+  <Type Name="Vector2&lt;*&gt;">
+    <DisplayString>{{ x={v[0]}, y={v[1]} }}</DisplayString>
+  </Type>
+  <Type Name="Vector3&lt;*&gt;">
+    <DisplayString>{{ x={v[0]}, y={v[1]}, z={v[2]} }}</DisplayString>
+  </Type>
+  <Type Name="Vector4&lt;*&gt;">
+    <DisplayString>{{ x={v[0]}, y={v[1]}, , z={v[2]}, , w={v[3]} }}</DisplayString>
+  </Type>
+  <Type Name="Point2&lt;*&gt;">
+    <DisplayString>{{ x={v[0]}, y={v[1]} }}</DisplayString>
+  </Type>
+  <Type Name="Point3&lt;*&gt;">
+    <DisplayString>{{ x={v[0]}, y={v[1]}, z={v[2]} }}</DisplayString>
+  </Type>
+  <Type Name="Matrice3x3&lt;*&gt;">
+    <DisplayString>{{ Row1=({m[0][0]}, {m[1][0]}, {m[2][0]}), Row2=({m[0][1]}, {m[1][1]}, {m[2][1]}), Row3=({m[0][2]}, {m[1][2]}, {m[2][2]}) }}</DisplayString>
+  </Type>
+  <Type Name="Matrice4x4&lt;*&gt;">
+    <DisplayString>{{ Row1=({m[0][0]}, {m[1][0]}, {m[2][0]}, {m[3][0]}), Row2=({m[0][1]}, {m[1][1]}, {m[2][1]}, {m[3][1]}), Row3=({m[0][2]}, {m[1][2]}, {m[2][2]}, {m[3][2]}), Row4=({m[0][3]}, {m[1][3]}, {m[2][3]}, {m[3][3]}) }}</DisplayString>
+  </Type>
+  <Type Name="Transform">
+    <DisplayString>{{ Row1=({m[0][0]}, {m[1][0]}, {m[2][0]}, {m[3][0]}), Row2=({m[0][1]}, {m[1][1]}, {m[2][1]}, {m[3][1]}), Row3=({m[0][2]}, {m[1][2]}, {m[2][2]}, {m[3][2]}), Row4=({m[0][3]}, {m[1][3]}, {m[2][3]}, {m[3][3]}) }}</DisplayString>
+  </Type>
+  <!--Définitions pour les types Couleur-->
+  <Type Name="ColorRGB">
+    <DisplayString>{{ R={m_data[0]} ({(unsigned short)(m_data[0]*255)}), G={m_data[1]} ({(unsigned short)(m_data[1]*255)}), B={m_data[2]} ({(unsigned short)(m_data[2]*255)}) }}</DisplayString>
+  </Type>
+  <Type Name="Color">
+    <DisplayString>{{ R={m_data[0]} ({(unsigned short)(m_data[0]*255)}), G={m_data[1]} ({(unsigned short)(m_data[1]*255)}), B={m_data[2]} ({(unsigned short)(m_data[2]*255)}), Alpha={m_data[3]} }}</DisplayString>
+  </Type>
+  <!--Définitions pour les objets du noyau graphique-->
+  <Type Name="Geometry">
+    <DisplayString>{{ Nom={m_name} }}</DisplayString>
+  </Type>
+  <Type Name="Texture2D">
+    <DisplayString>{{ Nom={m_name} }}</DisplayString>
+  </Type>
+  <Type Name="Object3D">
+    <DisplayString>{{ Nom={m_name} }}</DisplayString>
+  </Type>
+  <Type Name="VertexShader">
+    <DisplayString>{{ Nom={m_shaderName} }}</DisplayString>
+  </Type>
+  <Type Name="FragmentShader">
+    <DisplayString>{{ Nom={m_shaderName} }}</DisplayString>
+  </Type>
+</AutoVisualizer>
