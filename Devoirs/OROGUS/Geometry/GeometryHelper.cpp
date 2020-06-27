@@ -28,10 +28,44 @@ Geometry* GeometryHelper::CreateGrid(Metre width, Metre depth, uint32 m, uint32 
 	std::vector<Vertex> vertices;
 	std::vector<uint32> indices;
 
-	// TP2 : À compléter
-    // Vous n'utiliserez pas les textures pour ce TP, alors vous n'avez pas à considérer les paramètres float uRepeatRatio et float vRepeatRatio.
-    // Un vertex contient sa position, son vecteur normal et ses coordonnées de texture. Pour ce TP, les coordonnées de texture seront (0,0).
+	// TP2 : ï¿½ complï¿½ter
+    // Vous n'utiliserez pas les textures pour ce TP, alors vous n'avez pas ï¿½ considï¿½rer les paramï¿½tres float uRepeatRatio et float vRepeatRatio.
+    // Un vertex contient sa position, son vecteur normal et ses coordonnï¿½es de texture. Pour ce TP, les coordonnï¿½es de texture seront (0,0).
     // Vous pouvez vous inspirer du cylindre pour faire la grille.
+    
+    // PrÃ©calculer quelques valeurs utiles
+    Metre subWidth = width / m;
+    Metre subDepth = depth / n;
+    Metre xOffset = width / 2;
+    Metre zOffset = depth / 2;
+    Vector3<Real> normale = Vector3<Real>(Real(), Real(1), Real());
+
+    // Calculer les vertex
+    for (uint32 x = 0; x <= m; ++x) {
+        for (uint32 z = 0; z <= n; ++z) {
+            Metre px = Metre(x * subWidth) - xOffset;
+            Metre pz = Metre(z * subDepth) - zOffset;
+            Point3<Metre> p = Point3<Metre>(px, Metre(0), pz);
+            vertices.emplace_back(Vertex(p, normale, Vector2<Real>()));
+        }
+    }
+
+    // Effectuer le maillage
+    uint32 verticesWidth = m + 1;
+    for (uint32 x = 0; x < m; ++x) {
+        for (uint32 z = 0; z < n; ++z) {
+            uint32 start = (z * verticesWidth) + x;
+            // Ajouter le triangle au coin (0, 0)
+            indices.push_back(start);
+            indices.push_back(start + 1);
+            indices.push_back(start + verticesWidth);
+
+            // Ajouter le triangle au coin (1, 1)
+            indices.push_back(start + 1);
+            indices.push_back(start + verticesWidth + 1);
+            indices.push_back(start + verticesWidth);
+        }
+    }
     
     Geometry* geom = Geometry::CreateGeometry("Grid", std::move(vertices), std::move(indices));
     return geom;
@@ -51,7 +85,7 @@ Geometry* GeometryHelper::CreateGrid(Metre width, Metre depth, uint32 m, uint32 
 
 Geometry* GeometryHelper::CreateBox(Metre width, Metre height, Metre depth, Real textureRatioX, Real textureRatioY)
 {
-	// TP2 : À compléter
+	// TP2 : ï¿½ complï¿½ter
 
 	std::vector<Vertex> vertices;
 	std::vector<uint32> indices;
@@ -211,8 +245,8 @@ Geometry* GeometryHelper::CreateSphere(Metre radius, uint32 slices, uint32 stack
     std::vector<Vertex> vertices;
     std::vector<uint32> indices;
 
-	// TP3 : À compléter
-	// Pour le TP3, vous devez remplacer le code du tétrahèdre suivant par celui d'une sphère.
+	// TP3 : ï¿½ complï¿½ter
+	// Pour le TP3, vous devez remplacer le code du tï¿½trahï¿½dre suivant par celui d'une sphï¿½re.
 
 	// Thetrahedron
 	Point3<Metre> p1 = Point3<Metre>(-radius, Metre(-radius), Metre());
@@ -275,7 +309,7 @@ Geometry* GeometryHelper::CreateSphere(Metre radius, uint32 slices, uint32 stack
 	indices.push_back(9);
 	indices.push_back(11);
 	indices.push_back(10);
-	// Fin du code à compléter du TP3
+	// Fin du code ï¿½ complï¿½ter du TP3
 
     Geometry* geom = Geometry::CreateGeometry("Sphere", std::move(vertices), std::move(indices));
     return geom;
@@ -460,15 +494,15 @@ Geometry* GeometryHelper::CreateCylinder(Metre topRadius, Metre bottomRadius, Me
 
 // Rings : Nombre d'anneau
 // Sides : Nombre de points pour une anneau
-// Radius : Distance du centre à l'anneau
+// Radius : Distance du centre ï¿½ l'anneau
 // ringRadius : Rayon du cercle interne autour de l'anneau
 Geometry* GeometryHelper::CreateTorus(Metre radius, Metre ringRadius, uint32 sides, uint32 rings, Color* color)
 {
     std::vector<Vertex> vertices;
     std::vector<uint32> indices;
 
-	// TP3 : Bonus à compléter
-    // Remplacer le code du tétrahèdre suivant par celui d'un tore (anneau)
+	// TP3 : Bonus ï¿½ complï¿½ter
+    // Remplacer le code du tï¿½trahï¿½dre suivant par celui d'un tore (anneau)
     // Thetrahedron
     Point3<Metre> p1 = Point3<Metre>(-radius, Metre(-radius), Metre());
     Point3<Metre> p2 = Point3<Metre>(radius, Metre(-radius), Metre());
@@ -545,7 +579,7 @@ Geometry* GeometryHelper::CreateRevolutionSurface(const std::vector<Point2<Metre
 	std::vector<Vertex> vertices;
 	std::vector<uint32> indices;
 
-	// TP3 : À compléter
+	// TP3 : ï¿½ complï¿½ter
 	
 	Geometry* geom = Geometry::CreateGeometry("Revolution", std::move(vertices), std::move(indices));
 	geom->updateNormals();
