@@ -91,123 +91,47 @@ Geometry* GeometryHelper::CreateBox(Metre width, Metre height, Metre depth, Real
 	std::vector<uint32> indices;
 
 	// Points du cube
+    Vector3<Metre> offset = Vector3<Metre>(width / 2, height / 2, depth / 2);
 
-	Point3<Metre> p1 = Point3<Metre>(Metre(0), Metre(0), Metre(0));
-	Point3<Metre> p2 = Point3<Metre>(width, Metre(0), Metre(0));
-	Point3<Metre> p3 = Point3<Metre>(Metre(0), Metre(0), depth);
-	Point3<Metre> p4 = Point3<Metre>(width, Metre(0), depth);
-	Point3<Metre> p5 = Point3<Metre>(Metre(0), height, Metre(0));
-	Point3<Metre> p6 = Point3<Metre>(Metre(0), height, depth);
-	Point3<Metre> p7 = Point3<Metre>(width, height, Metre(0));
-	Point3<Metre> p8 = Point3<Metre>(width, height, depth);
+	Point3<Metre> p1 = Point3<Metre>(Metre(0), Metre(0), Metre(0)) - offset;
+	Point3<Metre> p2 = Point3<Metre>(width, Metre(0), Metre(0)) - offset;
+	Point3<Metre> p3 = Point3<Metre>(Metre(0), Metre(0), depth) - offset;
+	Point3<Metre> p4 = Point3<Metre>(width, Metre(0), depth) - offset;
+	Point3<Metre> p5 = Point3<Metre>(Metre(0), height, Metre(0)) - offset;
+	Point3<Metre> p6 = Point3<Metre>(Metre(0), height, depth) - offset;
+	Point3<Metre> p7 = Point3<Metre>(width, height, Metre(0)) - offset;
+	Point3<Metre> p8 = Point3<Metre>(width, height, depth) - offset;
 
-	// Face 1
+    const Point3<Metre> faces[6][4] = {
+        // Devant & Derrière
+        {p3, p4, p6, p8},
+        {p7, p2, p5, p1},
+        // Dessus & Dessous
+        {p1, p2, p3, p4},
+        {p5, p6, p7, p8},
+        // Gauche & Droite
+        {p1, p3, p5, p6},
+        {p8, p4, p7, p2},
+    };
 
-	vertices.push_back(Vertex(p1, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
+    // Génère les faces
+    uint32 indicesOffset = 0;
+    for (uint32 i = 0; i < 6; ++i) {
+        Vector3<Real> normal = (faces[i][1] - faces[i][0]).normalized().crossProduct((faces[i][2] - faces[i][0]).normalized());
+        vertices.push_back(Vertex(faces[i][0], normal, Vector2<Real>()));
+        vertices.push_back(Vertex(faces[i][1], normal, Vector2<Real>()));
+        vertices.push_back(Vertex(faces[i][2], normal, Vector2<Real>()));
+        vertices.push_back(Vertex(faces[i][3], normal, Vector2<Real>()));
 
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(2);
+        indices.push_back(indicesOffset + 0);
+        indices.push_back(indicesOffset + 1);
+        indices.push_back(indicesOffset + 2);
 
-	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(3);
-	indices.push_back(4);
-	indices.push_back(5);
-
-	// Face 2
-
-	vertices.push_back(Vertex(p1, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(6);
-	indices.push_back(7);
-	indices.push_back(8);
-
-	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(9);
-	indices.push_back(10);
-	indices.push_back(11);
-
-	// Face 3
-
-	vertices.push_back(Vertex(p3, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(12);
-	indices.push_back(13);
-	indices.push_back(14);
-
-	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p8, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(15);
-	indices.push_back(16);
-	indices.push_back(17);
-
-	// Face 4
-
-	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(18);
-	indices.push_back(19);
-	indices.push_back(20);
-
-	vertices.push_back(Vertex(p6, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p8, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(21);
-	indices.push_back(22);
-	indices.push_back(23);
-
-	// Face 5
-
-	vertices.push_back(Vertex(p1, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(24);
-	indices.push_back(25);
-	indices.push_back(26);
-
-	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p5, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(27);
-	indices.push_back(28);
-	indices.push_back(29);
-
-	// Face 6
-
-	vertices.push_back(Vertex(p2, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(30);
-	indices.push_back(31);
-	indices.push_back(32);
-
-	vertices.push_back(Vertex(p4, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p7, Vector3<Real>(), Vector2<Real>()));
-	vertices.push_back(Vertex(p8, Vector3<Real>(), Vector2<Real>()));
-
-	indices.push_back(33);
-	indices.push_back(34);
-	indices.push_back(35);
+        indices.push_back(indicesOffset + 1);
+        indices.push_back(indicesOffset + 3);
+        indices.push_back(indicesOffset + 2);
+        indicesOffset += 4;
+    }
 
 	Geometry* geom = Geometry::CreateGeometry("Cube", std::move(vertices), std::move(indices));
 	return geom;
