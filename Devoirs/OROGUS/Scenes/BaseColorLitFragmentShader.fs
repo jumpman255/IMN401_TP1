@@ -70,8 +70,10 @@ vec3 CalculateDirectionalLight(DirLight light, Material mat, vec3 objColor, vec3
     float spec = 0.0;
     if (diff > 0.0) 
 	{
-        vec3 reflectDir = reflect(-lightDir, normal);
-        spec = pow(max(dot(viewDir, reflectDir), 0.0), mat.shininess);
+        // Modèle de Blinn
+        // dot(H, N) ^ n
+        vec3 hDir = normalize(lightDir + viewDir);
+        spec = pow(max(dot(hDir, normal), 0.0), mat.shininess);
     }
     vec3 ambient = light.ambientColor  * mat.ambientColor;
     vec3 diffuse = light.diffuseColor  * diff * mat.diffuseColor;
@@ -86,8 +88,10 @@ vec3 CalculatePointLight(PointLight light, Material mat, vec3 objColor, vec3 nor
     float spec = 0.0;
 	if (diff != 0.0)
 	{
-	    vec3 reflectDir = reflect(-lightDir, normal);
-	    spec = pow(max(dot(viewDir, reflectDir), 0.0), mat.shininess);
+        // Modèle de Blinn
+        // dot(H, N) ^ n
+        vec3 hDir = normalize(lightDir + viewDir);
+        spec = pow(max(dot(hDir, normal), 0.0), mat.shininess);
     }
     vec3 ambient = light.ambientColor  * mat.ambientColor;
     vec3 diffuse = light.diffuseColor  * diff * mat.diffuseColor;
@@ -117,8 +121,10 @@ vec3 CalculateSpotLight(SpotLight light, Material mat, vec3 objColor, vec3 norma
             diff = max(dot(normal, lightDir), 0.0);
             if (diff != 0.0)
 			{
-                vec3 reflectDir = reflect(-lightDir, normal);
-                spec = pow(max(dot(viewDir, reflectDir), 0.0), mat.shininess);
+                // Modèle de Blinn
+                // dot(H, N) ^ n
+                vec3 hDir = normalize(lightDir + viewDir);
+                spec = pow(max(dot(hDir, normal), 0.0), mat.shininess);
             }
             ambient = light.ambientColor * mat.ambientColor;
             diffuse = light.diffuseColor  * diff * mat.diffuseColor;
