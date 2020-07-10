@@ -92,7 +92,7 @@
         <translation y="-10"/>
       </transform>
     </object>
-    <!--<object name="revol">
+    <object name="revol">
       <geometry type="forme">
         <forme type="revolution" precision="100">
           <points>
@@ -125,6 +125,6 @@
           <uniform name="material.shininess" type="float" value="255"/>
         </fragmentShader>
       </material>
-    </object>-->
+    </object>
   </objects>
 </scene>

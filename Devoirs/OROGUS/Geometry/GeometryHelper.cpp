@@ -6,6 +6,7 @@
 #include "Math.h"
 
 #include "../Utilities/Maths.h"
+#include "../Utilities/Transforms.h"
 #include "../Utilities/Vectors.h"
 
 Geometry* GeometryHelper::CreateTriangle()
@@ -491,7 +492,31 @@ Geometry* GeometryHelper::CreateRevolutionSurface(const std::vector<Point2<Metre
 	std::vector<uint32> indices;
 
 	// TP3 : � compl�ter
-	
+    Degree angle = Degree(360) / precision;
+    Vector3<Real> normal;
+
+    Metre x = slicePoint.at(0).x();
+    Metre y = slicePoint.at(0).y();
+    Metre z = Metre(0);
+    Point3<Metre> p1 = Point3<Metre>(x, y, z);
+    Point3<Metre> p2 = Point3<Metre>(x * Maths::Cos(angle), y, z * Maths::Sin(angle));
+
+    Metre x2 = slicePoint.at(1).x();
+    Metre y2 = slicePoint.at(1).y();
+    Metre z2 = Metre(0);
+    Point3<Metre> p3 = Point3<Metre>(x2, y2, z2);
+    Point3<Metre> p4 = Point3<Metre>(x2 * Maths::Cos(angle), y2, z2 * Maths::Sin(angle));
+    vertices.push_back(Vertex(p3, normal, Vector2<Real>()));
+    vertices.push_back(Vertex(p4, normal, Vector2<Real>()));
+
+    indices.emplace_back(0);
+    indices.emplace_back(1);
+    indices.emplace_back(2);
+
+    indices.emplace_back(1);
+    indices.emplace_back(3);
+    indices.emplace_back(2);
+
 	Geometry* geom = Geometry::CreateGeometry("Revolution", std::move(vertices), std::move(indices));
 	geom->updateNormals();
 	return geom;
