@@ -1,6 +1,9 @@
+#define _USE_MATH_DEFINES
+
 #include "GeometryHelper.h"
 
 #include "Geometry.h"
+#include "Math.h"
 
 #include "../Utilities/Maths.h"
 #include "../Utilities/Vectors.h"
@@ -172,67 +175,51 @@ Geometry* GeometryHelper::CreateSphere(Metre radius, uint32 slices, uint32 stack
 	// TP3 : � compl�ter
 	// Pour le TP3, vous devez remplacer le code du t�trah�dre suivant par celui d'une sph�re.
 
-	// Thetrahedron
-	Point3<Metre> p1 = Point3<Metre>(-radius, Metre(-radius), Metre());
-	Point3<Metre> p2 = Point3<Metre>(radius, Metre(-radius), Metre());
-	Point3<Metre> p3 = Point3<Metre>(Metre(), Metre(radius), Metre(-radius));
-	Point3<Metre> p4 = Point3<Metre>(Metre(), Metre(radius), Metre(radius));
+	Metre x, y, z, xy;
+	float sectorStep = 2 * M_PI / slices;
+	float stackStep = M_PI / stacks;
+	float sectorAngle, stackAngle;
 
-	// Face 1
-	Vector3<Real> normalF1 = (p4 - p1).normalized().crossProduct((p3 - p1).normalized());
-	Vertex f1v1 = Vertex(p1, normalF1, Vector2<Real>());
-	Vertex f1v2 = Vertex(p3, normalF1, Vector2<Real>());
-	Vertex f1v3 = Vertex(p4, normalF1, Vector2<Real>());
+	for (int i = 0; i <= stacks; ++i) {
+		stackAngle = M_PI / 2 - i * stackStep;
+		xy = radius * cosf(stackAngle);
+		z = radius * sinf(stackAngle);
 
-	vertices.push_back(f1v1);
-	vertices.push_back(f1v2);
-	vertices.push_back(f1v3);
+		for (int j = 0; j <= slices; ++j)
+		{
+			sectorAngle = j * sectorStep;
+			x = xy * cosf(sectorAngle);
+			y = xy * sinf(sectorAngle);
+			Point3<Metre> point = Point3<Metre>(x, y, z);
 
-	indices.push_back(0);
-	indices.push_back(2);
-	indices.push_back(1);
+			vertices.push_back(Vertex(point, point.normalized(), Vector2<Real>()));
+		}
+	}
 
-	// Face 2
-	Vector3<Real> normalF2 = (p3 - p2).normalized().crossProduct((p4 - p2).normalized());
-	Vertex f2v1 = Vertex(p2, normalF2, Vector2<Real>());
-	Vertex f2v2 = Vertex(p3, normalF2, Vector2<Real>());
-	Vertex f2v3 = Vertex(p4, normalF2, Vector2<Real>());
+	uint32 k1, k2;
+	for (int i = 0; i < stacks; ++i)
+	{
+		k1 = i * (slices + 1);
+		k2 = k1 + slices + 1;
 
-	vertices.push_back(f2v1);
-	vertices.push_back(f2v2);
-	vertices.push_back(f2v3);
+		for (int j = 0; j < slices; ++j, ++k1, ++k2)
+		{
+			if (i != 0)
+			{
+				indices.push_back(k1);
+				indices.push_back(k2);
+				indices.push_back(k1 + 1);
+			}
 
-	indices.push_back(3);
-	indices.push_back(4);
-	indices.push_back(5);
+			if (i != (stacks - 1))
+			{
+				indices.push_back(k1 + 1);
+				indices.push_back(k2);
+				indices.push_back(k2 + 1);
+			}
+		}
+	}
 
-	// Face 3
-	Vector3<Real> normalF3 = (p1 - p4).normalized().crossProduct((p2 - p4).normalized());
-	Vertex f3v1 = Vertex(p4, normalF3, Vector2<Real>());
-	Vertex f3v2 = Vertex(p1, normalF3, Vector2<Real>());
-	Vertex f3v3 = Vertex(p2, normalF3, Vector2<Real>());
-
-	vertices.push_back(f3v1);
-	vertices.push_back(f3v2);
-	vertices.push_back(f3v3);
-
-	indices.push_back(6);
-	indices.push_back(7);
-	indices.push_back(8);
-
-	// Face 4
-	Vector3<Real> normalF4 = (p2 - p3).normalized().crossProduct((p1 - p3).normalized());
-	Vertex f4v1 = Vertex(p3, normalF4, Vector2<Real>());
-	Vertex f4v2 = Vertex(p1, normalF4, Vector2<Real>());
-	Vertex f4v3 = Vertex(p2, normalF4, Vector2<Real>());
-
-	vertices.push_back(f4v1);
-	vertices.push_back(f4v2);
-	vertices.push_back(f4v3);
-
-	indices.push_back(9);
-	indices.push_back(11);
-	indices.push_back(10);
 	// Fin du code � compl�ter du TP3
 
     Geometry* geom = Geometry::CreateGeometry("Sphere", std::move(vertices), std::move(indices));

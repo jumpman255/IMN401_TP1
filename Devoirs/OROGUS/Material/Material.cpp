@@ -236,7 +236,7 @@ void Material::setFloat(const char* name, float value) const
 void Material::setFloat(uint32 uniformLocation, float value) const
 {
 	// TP2 : À compléter
-	glUniform1i(uniformLocation, value);
+	glUniform1f(uniformLocation, value);
 }
 
 void Material::setVec2(const std::string& name, float x, float y) const
