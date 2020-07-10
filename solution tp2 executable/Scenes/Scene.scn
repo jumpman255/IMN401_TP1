@@ -7,71 +7,124 @@
       <position x="0" y="0" z="-5"/>
       <lookAt x="0" y="0" z="0"/>
     </camera>
-    <ambientColor r="0" g="0" b="0"/>
+    <ambientColor r="0.008" g="0.008" b="0.008"/>
+    <transforms>
+      <translation x="4"/>
+    </transforms>
   </properties>
   <lights>
     <light type="point">
-      <position x="1" y="1" z="1"/>
-      <ambient r="1" g="1" b="1"/>
-      <diffuse r="1" g="1" b="1"/>
-      <specular r="1" g="1" b="1"/>
+      <position x="20" y="1" z="2"/>
+      <ambient red="255" green="255" blue="255"/>
+      <diffuse red="255" green="255" blue="255"/>
+      <specular red="255" green="255" blue="255"/>
 	  <constant value="1"/>
-	  <linear value="0.0"/>
+	  <linear value="0"/>
 	  <quadratic value="0"/>
     </light>
   </lights>
   <objects>
-    <object name="cube1">
+    <!--object name="cube">
       <geometry type="forme">
-        <forme type="cube" size="1"/>
+	      <forme type="cube" size="1"/>
+	    </geometry>
+	    <material>
+	      <vertexShader name="BaseVertexShader.vs"/>
+		    <fragmentShader name="BaseColorLitFragmentShader.fs">
+		      <uniform name="material.ambientColor" type="color" r="0.25" g="0" b="0"/>
+		      <uniform name="material.diffuseColor" type="color" r="0" g="0.5" b="0"/>
+		      <uniform name="material.specularColor" type="vec3" x="0" y="0.5" g="0"/>
+		      <uniform name="material.shininess" type="float" value="255"/>
+		    </fragmentShader>
+	    </material>
+      <transform>
+        <rotationY angle="30"/>
+      </transform>
+    </object-->
+    <object name="torus">
+      <geometry type="forme">
+        <forme type="torus"/>
       </geometry>
       <material>
         <vertexShader name="BaseVertexShader.vs"/>
         <fragmentShader name="BaseColorLitFragmentShader.fs">
-          <uniform name="material.ambientColor" type="color" r="0" g="0.3" b="0.3"/>
-          <uniform name="material.diffuseColor" type="color" r="0" g="1" b="1"/>
-          <uniform name="material.specularColor" type="color" r="0.3" g="0.3" b="0.3"/>
-          <uniform name="material.shininess" type="float" value="250"/>
+          <uniform name="material.ambientColor" type="color" r="0" g="0" b="0.3"/>
+          <uniform name="material.diffuseColor" type="color" r="0" g="0" b="0.7"/>
+          <uniform name="material.specularColor" type="vec3" x="0.7" y="0.7" g="0.7"/>
+          <uniform name="material.shininess" type="float" value="80"/>
         </fragmentShader>
       </material>
       <transform>
-        <translation x="0"/>
+        <translation x="2" z="10"/>
       </transform>
     </object>
     <object name="sphere">
       <geometry type="forme">
-        <forme type="sphere" rings="60" sides="60"/>
+        <forme type="sphere" rings="6" sides="6" size="3"/>
       </geometry>
       <material>
         <vertexShader name="BaseVertexShader.vs"/>
         <fragmentShader name="BaseColorLitFragmentShader.fs">
-          <uniform name="material.ambientColor" type="color" r="0.2" g="0.2" b="0.2"/>
-          <uniform name="material.diffuseColor" type="color" r="0.5" g="0.5" b="0.5"/>
-          <uniform name="material.specularColor" type="color" r="0.7" g="0.7" b="0.7"/>
-          <uniform name="material.shininess" type="float" value="250"/>
+          <uniform name="material.ambientColor" type="color" r="0.25" g="0" b="0"/>
+          <uniform name="material.diffuseColor" type="color" r="0.9" g="0" b="0"/>
+          <uniform name="material.specularColor" type="vec3" x="0.5" y="0.5" g="0.5"/>
+          <uniform name="material.shininess" type="float" value="50"/>
         </fragmentShader>
       </material>
       <transform>
-        <translation x="3"/>
+        <translation x="5"/>
       </transform>
       </object>
 	  <object name="grid">
       <geometry type="forme">
-        <forme type="grid" width="15" depth="15"/>
+        <forme type="grid" width="25" depth="25" m="3" n="3"/>
       </geometry>
       <material>
         <vertexShader name="BaseVertexShader.vs"/>
         <fragmentShader name="BaseColorLitFragmentShader.fs">
           <uniform name="material.ambientColor" type="color" r="0.25" g="0.25" b="0"/>
           <uniform name="material.diffuseColor" type="color" r="0.5" g="0.5" b="0"/>
-          <uniform name="material.specularColor" type="color" r="0.7" g="0.7" b="0.7"/>
-          <uniform name="material.shininess" type="float" value="250"/>
+          <uniform name="material.specularColor" type="color" r="0.5" g="0.5" b="0.5"/>
+          <uniform name="material.shininess" type="float" value="255"/>
         </fragmentShader>
       </material>
       <transform>
-        <translation y="-1"/>
+        <translation y="-10"/>
       </transform>
     </object>
-    
+    <object name="revol">
+      <geometry type="forme">
+        <forme type="revolution" precision="100">
+          <points>
+            <point x="0.2" y="-10"/>
+            <point x="4.3" y="-10"/>
+            <point x="8.6" y="-10"/>
+            <point x="6.1" y="-9.1"/>
+            <point x="4.0" y="-8.8"/>
+            <point x="1.7" y="-8.3"/>
+            <point x="2.5" y="-5.4"/>
+            <point x="2.4" y="-3.0"/>
+            <point x="2.2" y="-0.5"/>
+            <point x="1.4" y="2.1"/>
+            <point x="1.1" y="5.4"/>
+            <point x="2.5" y="6.0"/>
+            <point x="4.0" y="6.5"/>
+            <point x="5.4" y="6.7"/>
+            <point x="7.0" y="7.5"/>
+            <point x="8.0" y="8.4"/>
+            <point x="8.5" y="9.5"/>
+          </points>
+        </forme>
+      </geometry>
+      <material>
+        <vertexShader name="BaseVertexShader.vs"/>
+        <fragmentShader name="BaseColorLitFragmentShader.fs">
+          <uniform name="material.ambientColor" type="color" r="0.25" g="0.05" b="0.4"/>
+          <uniform name="material.diffuseColor" type="color" r="0.5" g="0.1" b="0.8"/>
+          <uniform name="material.specularColor" type="color" r="0.5" g="0.5" b="0.5"/>
+          <uniform name="material.shininess" type="float" value="255"/>
+        </fragmentShader>
+      </material>
+    </object>
   </objects>
 </scene>
