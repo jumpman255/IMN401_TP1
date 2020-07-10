@@ -176,20 +176,20 @@ Geometry* GeometryHelper::CreateSphere(Metre radius, uint32 slices, uint32 stack
 	// Pour le TP3, vous devez remplacer le code du t�trah�dre suivant par celui d'une sph�re.
 
 	Metre x, y, z, xy;
-	float sectorStep = 2 * M_PI / slices;
-	float stackStep = M_PI / stacks;
-	float sectorAngle, stackAngle;
+	Radian sectorStep = Degree(360) / slices;
+	Radian stackStep = Degree(180) / stacks;
+	Radian sectorAngle, stackAngle;
 
-	for (int i = 0; i <= stacks; ++i) {
-		stackAngle = M_PI / 2 - i * stackStep;
-		xy = radius * cosf(stackAngle);
-		z = radius * sinf(stackAngle);
+	for (uint32 i = 0; i <= stacks; ++i) {
+		stackAngle = Degree(90) - i * stackStep;
+		xy = radius * Maths::Cos(stackAngle);
+		z = radius * Maths::Sin(stackAngle);
 
-		for (int j = 0; j <= slices; ++j)
+		for (uint32 j = 0; j <= slices; ++j)
 		{
 			sectorAngle = j * sectorStep;
-			x = xy * cosf(sectorAngle);
-			y = xy * sinf(sectorAngle);
+			x = xy * Maths::Cos(sectorAngle);
+			y = xy * Maths::Sin(sectorAngle);
 			Point3<Metre> point = Point3<Metre>(x, y, z);
 
 			vertices.push_back(Vertex(point, point.normalized(), Vector2<Real>()));
@@ -197,12 +197,12 @@ Geometry* GeometryHelper::CreateSphere(Metre radius, uint32 slices, uint32 stack
 	}
 
 	uint32 k1, k2;
-	for (int i = 0; i < stacks; ++i)
+	for (uint32 i = 0; i < stacks; ++i)
 	{
 		k1 = i * (slices + 1);
 		k2 = k1 + slices + 1;
 
-		for (int j = 0; j < slices; ++j, ++k1, ++k2)
+		for (uint32 j = 0; j < slices; ++j, ++k1, ++k2)
 		{
 			if (i != 0)
 			{
