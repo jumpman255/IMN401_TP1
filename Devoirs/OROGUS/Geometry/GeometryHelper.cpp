@@ -414,71 +414,51 @@ Geometry* GeometryHelper::CreateTorus(Metre radius, Metre ringRadius, uint32 sid
     std::vector<uint32> indices;
 
 	// TP3 : Bonus � compl�ter
-    // Remplacer le code du t�trah�dre suivant par celui d'un tore (anneau)
-    // Thetrahedron
-    Point3<Metre> p1 = Point3<Metre>(-radius, Metre(-radius), Metre());
-    Point3<Metre> p2 = Point3<Metre>(radius, Metre(-radius), Metre());
-    Point3<Metre> p3 = Point3<Metre>(Metre(), Metre(radius), Metre(-radius));
-    Point3<Metre> p4 = Point3<Metre>(Metre(), Metre(radius), Metre(radius));
+    Degree ringAngle = Degree(360) / sides;
+    std::vector<Point2<Metre>> slicePoint = std::vector<Point2<Metre>>();
+    for (uint32 sideIndex = 0; sideIndex < sides; ++sideIndex) {
+        Metre x = radius + (ringRadius * Maths::Cos(ringAngle * sideIndex));
+        Metre y = ringRadius * Maths::Sin(ringAngle * sideIndex);
+        slicePoint.push_back(Point2<Metre>(x, y));
+    }
 
-    // Face 1
-    Vector3<Real> normalF1 = (p4 - p1).normalized().crossProduct((p3 - p1).normalized());
-    Vertex f1v1 = Vertex(p1, normalF1, Vector2<Real>());
-    Vertex f1v2 = Vertex(p3, normalF1, Vector2<Real>());
-    Vertex f1v3 = Vertex(p4, normalF1, Vector2<Real>());
+    Degree angle = Degree(360) / rings;
+    Vector3<Real> normal;
 
-    vertices.push_back(f1v1);
-    vertices.push_back(f1v2);
-    vertices.push_back(f1v3);
+    for (size_t sliceIndex = 0; sliceIndex < slicePoint.size(); ++sliceIndex) {
+        Metre radius = slicePoint.at(sliceIndex).x();
+        Metre y = slicePoint.at(sliceIndex).y();
 
-    indices.push_back(0);
-    indices.push_back(2);
-    indices.push_back(1);
+        for (uint32 i = 0; i < rings; ++i) {
+            Point3<Metre> p = Point3<Metre>(radius * Maths::Sin(angle * i), y, radius * Maths::Cos(angle * i));
+            vertices.push_back(Vertex(p, normal, Vector2<Real>()));
+        }
+    }
 
-    // Face 2
-    Vector3<Real> normalF2 = (p3 - p2).normalized().crossProduct((p4 - p2).normalized());
-    Vertex f2v1 = Vertex(p2, normalF2, Vector2<Real>());
-    Vertex f2v2 = Vertex(p3, normalF2, Vector2<Real>());
-    Vertex f2v3 = Vertex(p4, normalF2, Vector2<Real>());
+    for (uint32 sliceIndex = 0; sliceIndex < sides; ++sliceIndex) {
+        for (uint32 i = 0; i < rings; ++i) {
+            uint32 x = i;
+            uint32 x2 = (i + rings - 1) % rings;
+            uint32 y = sliceIndex;
+            uint32 y2 = (sliceIndex + sides - 1) % sides;
 
-    vertices.push_back(f2v1);
-    vertices.push_back(f2v2);
-    vertices.push_back(f2v3);
+            uint32 p1 = x2 + (y2 * rings);
+            uint32 p2 = x + (y2 * rings);
+            uint32 p3 = x2 + (y * rings);
+            uint32 p4 = x + (y * rings);
 
-    indices.push_back(3);
-    indices.push_back(4);
-    indices.push_back(5);
+            indices.emplace_back(p1);
+            indices.emplace_back(p2);
+            indices.emplace_back(p3);
 
-    // Face 3
-    Vector3<Real> normalF3 = (p1 - p4).normalized().crossProduct((p2 - p4).normalized());
-    Vertex f3v1 = Vertex(p4, normalF3, Vector2<Real>());
-    Vertex f3v2 = Vertex(p1, normalF3, Vector2<Real>());
-    Vertex f3v3 = Vertex(p2, normalF3, Vector2<Real>());
-
-    vertices.push_back(f3v1);
-    vertices.push_back(f3v2);
-    vertices.push_back(f3v3);
-
-    indices.push_back(6);
-    indices.push_back(7);
-    indices.push_back(8);
-
-    // Face 4
-    Vector3<Real> normalF4 = (p2 - p3).normalized().crossProduct((p1 - p3).normalized());
-    Vertex f4v1 = Vertex(p3, normalF4, Vector2<Real>());
-    Vertex f4v2 = Vertex(p1, normalF4, Vector2<Real>());
-    Vertex f4v3 = Vertex(p2, normalF4, Vector2<Real>());
-
-    vertices.push_back(f4v1);
-    vertices.push_back(f4v2);
-    vertices.push_back(f4v3);
-
-    indices.push_back(9);
-    indices.push_back(11);
-    indices.push_back(10);
-	// Fin du bonus...
+            indices.emplace_back(p2);
+            indices.emplace_back(p4);
+            indices.emplace_back(p3);
+        }
+    }
 
     Geometry* geom = Geometry::CreateGeometry("Torus", std::move(vertices), std::move(indices));
+	geom->updateNormals();
     if (color != nullptr)
     {
         geom->setColor(*color);
