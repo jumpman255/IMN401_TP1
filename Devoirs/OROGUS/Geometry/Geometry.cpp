@@ -146,7 +146,23 @@ void Geometry::updateTangents()
 
 void Geometry::updateNormals()
 {
-	// TP3 : À compléter
+	// TP3 : ï¿½ complï¿½ter
+    for (Triangle triangle : m_triangles) {
+        Point3<Metre> p1 = triangle.Vertex1.Position;
+        Point3<Metre> p2 = triangle.Vertex2.Position;
+        Point3<Metre> p3 = triangle.Vertex3.Position;
+
+        Vector3<Real> normal = (p2 - p1).normalized().crossProduct((p3 - p1).normalized());
+        triangle.Vertex1.Normal += normal.normalized();
+        triangle.Vertex2.Normal += normal.normalized();
+        triangle.Vertex3.Normal += normal.normalized();
+    }
+    for (Triangle triangle : m_triangles) {
+        triangle.Vertex1.Normal = triangle.Vertex1.Normal.normalized();
+        triangle.Vertex2.Normal = triangle.Vertex2.Normal.normalized();
+        triangle.Vertex3.Normal = triangle.Vertex3.Normal.normalized();
+    }
+    updateVertexBuffer();
 }
 
 void Geometry::constructTrianglesList()
