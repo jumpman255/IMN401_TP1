@@ -23,7 +23,7 @@
       <quadratic value="0"/>
     </light>
   </lights>
-  <objects>
+<!--   <objects>
     <object name="cube">
       <geometry type="forme">
 	      <forme type="cube" size="1"/>
@@ -56,6 +56,32 @@
       </material>
       <transform>
         <translation x="2" z="10"/>
+      </transform>
+    </object>
+    <object name="hermite">
+      <geometry type="curve">
+        <curve type="hermite">
+          <color r="0" g="0" b="0"/>
+          <precision value="10"/>
+          <controlPoints>
+            <point x="0" y="0" z="0"/>
+            <point x="1" y="1" z="1"/>
+            <point x="2" y="2" z="2"/>
+            <point x="3" y="3" z="3"/>
+          </controlPoints>
+        </curve>
+      </geometry>
+      <material>
+        <vertexShader name="BaseVertexShader.vs"/>
+        <fragmentShader name="BaseColorLitFragmentShader.fs">
+          <uniform name="material.ambientColor" type="color" r="0" g="0" b="0"/>
+          <uniform name="material.diffuseColor" type="color" r="0" g="0" b="0"/>
+          <uniform name="material.specularColor" type="vec3" x="0" y="0" g="0"/>
+          <uniform name="material.shininess" type="float" value="0"/>
+        </fragmentShader>
+      </material>
+      <transform>
+        <translation x="1" z="1"/>
       </transform>
     </object>
     <object name="sphere">
@@ -126,5 +152,47 @@
         </fragmentShader>
       </material>
     </object>
-  </objects>
+  </objects> -->
+  <curves>
+    <curve type="hermite" name="hermite">
+      <color r="0" g="0" b="0"/>
+      <precision value="100"/>
+      <controlPoints>
+        <point x="0" y="0" z="0"/>
+        <point x="0" y="0" z="-3"/>
+        <point x="3" y="0" z="3"/>
+        <point x="4" y="0" z="0"/>
+      </controlPoints>
+    </curve>
+    <curve type="catmullrom" name="catmullrom">
+      <color r="0" g="255" b="0"/>
+      <precision value="100"/>
+      <controlPoints>
+        <point x="-1" y="0" z="-3"/>
+        <point x="0" y="0" z="0"/>
+        <point x="-4" y="0" z="0"/>
+        <point x="-3" y="0" z="3"/>
+      </controlPoints>
+    </curve>
+    <curve type="bezier" name="bezier">
+      <color r="0" g="0" b="255"/>
+      <precision value="100"/>
+      <controlPoints>
+        <point x="0" y="0" z="0"/>
+        <point x="0" y="0" z="3"/>
+        <point x="0" y="3" z="3"/>
+        <point x="0" y="4" z="0"/>
+      </controlPoints>
+    </curve>
+    <curve type="bspline" name="bspline">
+      <color r="255" g="0" b="0"/>
+      <precision value="100"/>
+      <controlPoints>
+        <point x="0" y="0" z="0"/>
+        <point x="0" y="-1" z="3"/>
+        <point x="0" y="-4" z="0"/>
+        <point x="0" y="-3" z="3"/>
+      </controlPoints>
+    </curve>
+  </curves>
 </scene>

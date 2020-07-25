@@ -154,6 +154,20 @@ BezierCurve::~BezierCurve()
 void BezierCurve::updateVertices()
 {
 	// TP4 : À compléter
+	for (int i = 0; i <= getCurvePrecision(); i++) {
+		float t = (float)i / (float)getCurvePrecision();
+		float h1 = -1 * pow(t, 3) + 3 * pow(t, 2) + -3 * t + 1;
+		float h2 = 3 * pow(t, 3) + -6 * pow(t, 2) + 3 * t;
+		float h3 = -3 * pow(t, 3) + 3 * pow(t, 2);
+		float h4 = pow(t, 3);
+		Vector3<Metre> point = Vector3<Metre>(h1 * m_controlPoints[0] + h2 * m_controlPoints[1] + h3 * m_controlPoints[2] + h4 * m_controlPoints[3]);
+		CurveVertex vertice;
+		vertice.Position = point;
+		m_vertices.push_back(vertice);
+	}
+	CurveVertex vertice;
+	vertice.Position = m_controlPoints[3];
+	m_vertices.push_back(vertice);
 }
 
 
@@ -169,6 +183,24 @@ HermiteCurve::~HermiteCurve()
 void HermiteCurve::updateVertices()
 {
 	// TP4 : À compléter
+	Vector3<Metre> p1 = m_controlPoints[0];
+	Vector3<Metre> p2 = m_controlPoints[3];
+	Vector3<Metre> r1 = 3 * (m_controlPoints[1] - m_controlPoints[0]);
+	Vector3<Metre> r2 = 3 * (m_controlPoints[3] - m_controlPoints[2]);
+	for (int i = 0; i <= getCurvePrecision(); i++) {
+		float t = (float)i / (float)getCurvePrecision();
+		float h1 = 2 * pow(t, 3) - 3 * pow(t, 2) + 1;
+		float h2 = -2 * pow(t, 3) + 3 * pow(t, 2);
+		float h3 = pow(t, 3) - 2 * pow(t, 2) + t;
+		float h4 = pow(t, 3) - pow(t, 2);
+		Vector3<Metre> point = Vector3<Metre>(h1 * p1 + h2 * p2 + h3 * r1 + h4 * r2);
+		CurveVertex vertice;
+		vertice.Position = point;
+		m_vertices.push_back(vertice);
+	}
+	CurveVertex vertice;
+	vertice.Position = m_controlPoints[3];
+	m_vertices.push_back(vertice);
 }
 
 
@@ -184,6 +216,25 @@ CatmullRomCurve::~CatmullRomCurve()
 void CatmullRomCurve::updateVertices()
 {
 	// TP4 : À compléter
+	float s = 0.5f;
+
+	float split = getCurvePrecision()/(m_controlPoints.size() - 3);
+	for (std::size_t i = 2; i < m_controlPoints.size() - 1; ++i) {
+		for (int j = 0; j <= split; j++) {
+			float t = (float)j / split;
+			float h1 = -s * pow(t, 3) + 2 * s * pow(t, 2) + -s * t;
+			float h2 = (2 - s) * pow(t, 3) + (s - 3) * pow(t, 2) + 1;
+			float h3 = (s - 2) * pow(t, 3) + (3 - 2 * s) * pow(t, 2) + t * s;
+			float h4 = s * pow(t, 3) + (-s) * pow(t, 2);
+			Vector3<Metre> point = Vector3<Metre>(h1 * m_controlPoints[i - 2] + h2 * m_controlPoints[i - 1] + h3 * m_controlPoints[i] + h4 * m_controlPoints[i + 1]);
+			CurveVertex vertice;
+			vertice.Position = point;
+			m_vertices.push_back(vertice);
+		}
+		CurveVertex vertice;
+		vertice.Position = m_controlPoints[i + 1];
+		m_vertices.push_back(vertice);
+	}
 }
 
 
@@ -199,4 +250,21 @@ BSplineCurve::~BSplineCurve()
 void BSplineCurve::updateVertices()
 {
 	// TP4 : À compléter
+	float split = getCurvePrecision() / (m_controlPoints.size() - 3);
+	for (std::size_t i = 3; i < m_controlPoints.size(); ++i) {
+		for (int j = 0; j <= split; j++) {
+			float t = (float)j / split;
+			float h1 = pow(1 - t, 3)/6;
+			float h2 = (3 * pow(t, 3) -6 * pow(t, 2) + 4)/6;
+			float h3 = (-3 * pow(t, 3) + 3 * pow(t, 2) + 3 * t + 1)/6;
+			float h4 = pow(t, 3)/6;
+			Vector3<Metre> point = Vector3<Metre>(h1 * m_controlPoints[i - 3] + h2 * m_controlPoints[i - 2] + h3 * m_controlPoints[i - 1] + h4 * m_controlPoints[i]);
+			CurveVertex vertice;
+			vertice.Position = point;
+			m_vertices.push_back(vertice);
+		}
+		CurveVertex vertice;
+		vertice.Position = m_controlPoints[i];
+		m_vertices.push_back(vertice);
+	}
 }
